@@ -9,11 +9,11 @@ import {
   OneToOne,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Task } from '../../tasks/entities/task.entity';
-import { Category } from '../../categories/entities/category.entity';
-import { PomodoroSession } from '../../pomodoro-sessions/entities/pomodoro-session.entity';
-import { UserSettings } from '../../user-settings/entities/user-settings.entity';
-import { DailyStat } from '../../daily-stats/entities/daily-stat.entity';
+import { Task } from '../../tasks/entities/task.entity.js';
+import { Category } from '../../categories/entities/category.entity.js';
+import { PomodoroSession } from '../../pomodoro-sessions/entities/pomodoro-session.entity.js';
+import { UserSettings } from '../../user-settings/entities/user-settings.entity.js';
+import { DailyStat } from '../../daily-stats/entities/daily-stat.entity.js';
 
 @Entity('users')
 export class User {
@@ -26,7 +26,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Exclude() // طبقة حماية إضافية عند التحويل لـ JSON (class-transformer)
+  @Exclude()
   @Column({ type: 'varchar', length: 255, select: false, name: 'password_hash' })
   passwordHash: string;
 
@@ -41,8 +41,6 @@ export class User {
 
   @DeleteDateColumn({ type: 'timestamptz', name: 'deleted_at' })
   deletedAt: Date | null;
-
-  // ===== العلاقات (Relations) =====
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
